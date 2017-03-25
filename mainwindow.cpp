@@ -25,8 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&m_serialThread, SIGNAL(serialError(QString)), this, SLOT(serialPortError(QString)));
     connect(&m_serialThread, SIGNAL(serialTimeout(QString)), this, SLOT(serialPortTimeout(QString)));
     connect(&m_serialThread, SIGNAL(serialDataReady(TelemetryMessage)), this, SLOT(processTelemetryMessage(TelemetryMessage)));
-    connect(ui->sliderSpeedPitch, SIGNAL(valueChanged(int)), this, SLOT(setPitchSpeed()));
-    connect(ui->sliderSpeedRoll, SIGNAL(valueChanged(int)), this, SLOT(setRollSpeed()));
+    connect(ui->sliderSpeedPitch, SIGNAL(valueChanged(int)), this, SLOT(setSliderPitchSpeed()));
+    connect(ui->spinSpeedPitch, SIGNAL(valueChanged(int)), this, SLOT(setSpinPitchSpeed()));
+    connect(ui->sliderSpeedRoll, SIGNAL(valueChanged(int)), this, SLOT(setSliderRollSpeed()));
+    connect(ui->spinSpeedRoll, SIGNAL(valueChanged(int)), this, SLOT(setSpinRollSpeed()));
 
     m_outSettings[PWM_OUT_PITCH].power = 1;
     m_outSettings[PWM_OUT_PITCH].flags = 0;
@@ -83,7 +85,9 @@ void MainWindow::serialPortConnect()
         ui->actionStore->setEnabled(false);
         m_serialPortList->setEnabled(true);
         ui->sliderSpeedPitch->setEnabled(false);
+        ui->spinSpeedPitch->setEnabled(false);
         ui->sliderSpeedRoll->setEnabled(false);
+        ui->spinSpeedRoll->setEnabled(false);
         ui->statusBar->showMessage(tr("Disconnected from: %1").arg(m_serialPortList->currentText()));
         m_serialConnected = false;
     }
@@ -96,7 +100,9 @@ void MainWindow::serialPortConnect()
         ui->actionStore->setEnabled(true);
         m_serialPortList->setEnabled(false);
         ui->sliderSpeedPitch->setEnabled(true);
+        ui->spinSpeedPitch->setEnabled(true);
         ui->sliderSpeedRoll->setEnabled(true);
+        ui->spinSpeedRoll->setEnabled(true);
         ui->statusBar->showMessage(tr("Connected to: %1").arg(m_serialPortList->currentText()));
         m_serialConnected = true;
     }
@@ -338,10 +344,11 @@ void MainWindow::storeSettings()
 }
 
 /**
- * @brief MainWindow::setPitchSpeed
+ * @brief MainWindow::setSliderPitchSpeed
  */
-void MainWindow::setPitchSpeed()
+void MainWindow::setSliderPitchSpeed()
 {
+    ui->spinSpeedPitch->setValue(ui->sliderSpeedPitch->value());
     quint32 value   = ui->sliderSpeedPitch->value() * 64;
     m_msg.msg_id    = 'B';
     m_msg.data_size = sizeof(value);
@@ -350,11 +357,38 @@ void MainWindow::setPitchSpeed()
 }
 
 /**
- * @brief MainWindow::setRollSpeed
+ * @brief MainWindow::setSpinPitchSpeed
  */
-void MainWindow::setRollSpeed()
+void MainWindow::setSpinPitchSpeed()
 {
+    ui->sliderSpeedPitch->setValue(ui->spinSpeedPitch->value());
+    quint32 value   = ui->spinSpeedPitch->value() * 64;
+    m_msg.msg_id    = 'B';
+    m_msg.data_size = sizeof(value);
+    memcpy((void *)m_msg.data, (void *)&value, sizeof(value));
+    sendTelemetryMessage(m_msg);
+}
+
+/**
+ * @brief MainWindow::setSliderRollSpeed
+ */
+void MainWindow::setSliderRollSpeed()
+{
+    ui->spinSpeedRoll->setValue(ui->sliderSpeedRoll->value());
     quint32 value   = ui->sliderSpeedRoll->value() * 64;
+    m_msg.msg_id    = 'C';
+    m_msg.data_size = sizeof(value);
+    memcpy((void *)m_msg.data, (void *)&value, sizeof(value));
+    sendTelemetryMessage(m_msg);
+}
+
+/**
+ * @brief MainWindow::setSpinRollSpeed
+ */
+void MainWindow::setSpinRollSpeed()
+{
+    ui->sliderSpeedRoll->setValue(ui->spinSpeedRoll->value());
+    quint32 value   = ui->spinSpeedRoll->value() * 64;
     m_msg.msg_id    = 'C';
     m_msg.data_size = sizeof(value);
     memcpy((void *)m_msg.data, (void *)&value, sizeof(value));

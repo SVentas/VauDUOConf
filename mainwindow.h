@@ -41,8 +41,10 @@ private slots:
     void getSettings();
     void setSettings();
     void storeSettings();
-    void setPitchSpeed();
-    void setRollSpeed();
+    void setSliderPitchSpeed();
+    void setSpinPitchSpeed();
+    void setSliderRollSpeed();
+    void setSpinRollSpeed();
 
 private:
     void fillSerialPortInfo();

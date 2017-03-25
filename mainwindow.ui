@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>300</height>
+    <height>322</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -156,7 +156,7 @@
        <string>Motor speed:</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
+       <item row="0" column="1">
         <widget class="QLabel" name="labelPitch2">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -169,7 +169,26 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="2" column="1" colspan="4">
+        <widget class="QSlider" name="sliderSpeedPitch">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="maximum">
+          <number>1280</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::TicksBothSides</enum>
+         </property>
+         <property name="tickInterval">
+          <number>32</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
         <widget class="QLabel" name="labelRoll2">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -182,7 +201,36 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="2">
+        <widget class="QSpinBox" name="spinSpeedRoll">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="keyboardTracking">
+          <bool>false</bool>
+         </property>
+         <property name="maximum">
+          <number>1280</number>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QSpinBox" name="spinSpeedPitch">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="keyboardTracking">
+          <bool>false</bool>
+         </property>
+         <property name="maximum">
+          <number>1280</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1" colspan="4">
         <widget class="QSlider" name="sliderSpeedRoll">
          <property name="enabled">
           <bool>false</bool>
@@ -193,18 +241,11 @@
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QSlider" name="sliderSpeedPitch">
-         <property name="enabled">
-          <bool>false</bool>
+         <property name="tickPosition">
+          <enum>QSlider::TicksBothSides</enum>
          </property>
-         <property name="maximum">
-          <number>1280</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+         <property name="tickInterval">
+          <number>32</number>
          </property>
         </widget>
        </item>
